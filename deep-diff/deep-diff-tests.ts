@@ -3,7 +3,13 @@
 import _deepDiff = require('deep-diff');
 var diff = _deepDiff.diff;
 
-var lhs = {
+interface TestObject {
+    name: string;
+    description: string;
+    details: { [id: string]: any };
+}
+
+var lhs: TestObject = {
     name: 'my object',
     description: 'it\'s an object!',
     details: {
@@ -13,7 +19,7 @@ var lhs = {
     }
 };
 
-var rhs = {
+var rhs: TestObject = {
     name: 'updated object',
     description: 'it\'s an object!',
     details: {
@@ -23,7 +29,7 @@ var rhs = {
     }
 };
 
-var differences: deepDiff.IDiff[] = diff(lhs, rhs);
+var differences: deepDiff.Diff<TestObject>[] = diff<any>(lhs, rhs);
 
 console.log(differences);
 
@@ -33,7 +39,7 @@ console.log(differences);
 var observableDiff = _deepDiff.observableDiff;
 var applyChange = _deepDiff.applyChange;
 
-var lhs = {
+var lhs: TestObject = {
     name: 'my object',
     description: 'it\'s an object!',
     details: {
@@ -43,7 +49,7 @@ var lhs = {
     }
 };
 
-var rhs = {
+var rhs: TestObject = {
     name: 'updated object',
     description: 'it\'s an object!',
     details: {
@@ -53,9 +59,9 @@ var rhs = {
     }
 };
 
-observableDiff(lhs, rhs, function (d: deepDiff.IDiff) {
+observableDiff<any>(lhs, rhs, function (d: deepDiff.Diff<TestObject>) {
     // Apply all changes except those to the 'name' property...
     if (d.path.length !== 1 || d.path.join('.') !== 'name') {
-        applyChange(lhs, rhs, d);
+        applyChange<any>(lhs, rhs, d);
     }
 });
