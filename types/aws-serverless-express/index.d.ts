@@ -12,7 +12,10 @@ import * as http from 'http';
 import * as lambda from 'aws-lambda';
 
 export function createServer(
-    requestListener: (request: http.IncomingMessage, response: http.ServerResponse) => void,
+    requestListener: (
+        request: http.IncomingMessage,
+        response: http.ServerResponse
+    ) => undefined,
     serverListenCallback?: () => any,
     binaryMimeTypes?: string[]
 ): http.Server;
@@ -20,5 +23,6 @@ export function createServer(
 export function proxy(
     server: http.Server,
     event: any,
-    context: lambda.Context
-): void;
+    context: lambda.Context,
+    resolveMode?: 'PROMISE' | 'CALLBACK' | 'CONTEXT_SUCCEED'
+): undefined;
